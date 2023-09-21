@@ -1,11 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+import numpy as np
+
+
+def get_default_array():
+  default_arr = np.random.rand(1536)  # Adjust this to your desired default array
+  return default_arr.tobytes()
 
 
 class Movie(models.Model):
   title = models.CharField(max_length=100)
   description = models.CharField(max_length=1000)
-  image = models.ImageField(upload_to='movie/images/')
+  emb = models.BinaryField(default=get_default_array())
+  image = models.ImageField(upload_to='movie/images/', default = 'movie/images/default.jpg')
   url = models.URLField(blank=True)
   
   def __str__(self):
